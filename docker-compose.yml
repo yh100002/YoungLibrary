@@ -27,7 +27,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5433:1433"
-    container_name: mssql-linux 
+    container_name: mssql-linux2 
 
   rabbit1:
     image: "rabbitmq:3-management"
@@ -43,13 +43,13 @@ services:
     depends_on:
       - sql.data
 
-  volumes:
-    esdata:
-        driver: local
+volumes:
+  esdata:
+      driver: local
 
-  networks:
-    esnetwork:
-        driver: bridge
+networks:
+  esnetwork:
+      driver: bridge
           
   
 
