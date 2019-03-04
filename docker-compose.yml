@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+    ports:
+        - "9200:9200"
+        - "9300:9300"
+    volumes:
+        - esdata:/usr/share/elasticsearch/data
+    networks:
+        - esnetwork
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.5.4
+    ports:
+        - "5601:5601"
+    networks:
+        - esnetwork
+    depends_on:
+        - elasticsearch  
+
+  sql.data:
+    image: mssql-linux
+    build:
+      context: ./Database
+      dockerfile: Dockerfile
+    ports:
+      - "5433:1433"
+    container_name: mssql-linux 
+
+  rabbit1:
+    image: "rabbitmq:3-management"
+    hostname: "rabbit1"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "15672:15672"
+      - "5672:5672"    
+    depends_on:
+      - sql.data
+
+  volumes:
+    esdata:
+        driver: local
+
+  networks:
+    esnetwork:
+        driver: bridge
+          
+  
+
+   
+ 
