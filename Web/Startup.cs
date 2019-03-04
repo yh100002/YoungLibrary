@@ -30,6 +30,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Web.ExceptionHandler;
 using PerformanceLogger;
+using Models;
+using Microsoft.EntityFrameworkCore;
+using Data.DependencyInjection;
 
 namespace Web
 {
@@ -54,6 +57,13 @@ namespace Web
             services.AddCors();        
             services.AddApiVersioning(o => o.ApiVersionReader = new HeaderApiVersionReader("api-gateway-version"));
             services.AddAutoMapper();
+
+            string dbConnString = Configuration.GetConnectionString("Auth");
+
+            services.AddDbContext<UserContext>(options =>
+                options.UseSqlServer( dbConnString, builder1 => builder1.MigrationsAssembly(typeof(Startup).Assembly.FullName)
+                )).AddUnitOfWork<UserContext>();
+
 
             var builder = new ContainerBuilder();
             builder.RegisterInstance<IHttpClient>(new StandardHttpClient());
