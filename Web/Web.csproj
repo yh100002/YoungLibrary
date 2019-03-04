@@ -17,11 +17,13 @@
     <PackageReference Include="Serilog.Exceptions" Version="5.0.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
     <PackageReference Include="Serilog.Sinks.ElasticSearch" Version="6.5.0" />
+    <PackageReference Include="NEST" Version="6.4.2" />    
   </ItemGroup>
 
   <ItemGroup>    
     <ProjectReference Include="..\Infrastructure\HttpClient\HttpClient.csproj" />
     <ProjectReference Include="..\Data\Data.csproj"/>
     <ProjectReference Include="..\Models\Models.csproj"/>
+    <ProjectReference Include="..\PerformanceLogger\PerformanceLogger.csproj" />
   </ItemGroup>
 </Project>

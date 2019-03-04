@@ -21,6 +21,15 @@ using Serilog;
 using Serilog.Exceptions;
 using Serilog.Sinks.Elasticsearch;
 using Http;
+using Web.Configuration;
+using Web.Helpers;
+using Web.Auth;
+using Web.Log;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Web.ExceptionHandler;
+using PerformanceLogger;
 
 namespace Web
 {
@@ -42,14 +51,42 @@ namespace Web
                     opt.SerializerSettings.ReferenceLoopHandling = 
                         Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 });      
-
+            services.AddCors();        
             services.AddApiVersioning(o => o.ApiVersionReader = new HeaderApiVersionReader("api-gateway-version"));
             services.AddAutoMapper();
 
             var builder = new ContainerBuilder();
             builder.RegisterInstance<IHttpClient>(new StandardHttpClient());
 
-            services.Configure<Configuration.LibrarySettings>(Configuration.GetSection("LibrarySettings"));             
+            services.Configure<Configuration.LibrarySettings>(Configuration.GetSection("LibrarySettings"));         
+            services.Configure<ElasticConnectionSettings>(Configuration.GetSection("ElasticConnectionSettings"));    
+
+            services.AddSingleton(typeof(ElasticClientProvider));      
+            services.AddScoped<IAuthRepository, AuthRepository>(); 
+            services.AddScoped<ILogViewRepository, LogViewRepository>();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                            .AddJwtBearer(options => {
+                                options.TokenValidationParameters = new TokenValidationParameters
+                                {
+                                    ValidateIssuerSigningKey = true,
+                                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
+                                        .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                                    ValidateIssuer = false,
+                                    ValidateAudience = false
+                                };
+                            });
+
+            //SeriLog
+            var url = Configuration.GetSection("ElasticConnectionSettings:ClusterUrl").Value;            
+            Serilog.Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information() //levels can be overridden per logging source
+            .Enrich.FromLogContext()
+            .Enrich.WithExceptionDetails()
+            .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(url)) //Logging to Elasticsearch
+            {
+                AutoRegisterTemplate = true //auto index template like logstash as prefix           
+            }).CreateLogger();
+
 
             builder.Populate(services);
             ApplicationContainer = builder.Build();
@@ -59,20 +96,22 @@ namespace Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IOptions<Configuration.LibrarySettings> pimsSettings, IApplicationLifetime appLifetime)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IOptions<Configuration.LibrarySettings> pimsSettings, IApplicationLifetime appLifetime, ILoggerFactory loggerFactory)
+        {            
+             // Handles non-success status codes with empty body
+            app.UseExceptionHandler("/errors/500");            
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
+            //To handle unexpected exception globally, register custome middleware
+            app.UseMiddleware<CustomExceptionMiddleware>();   
+             //Enable PerformanceLogger as middleware layer by using extention
+            app.UsePerformanceLog(new LogOptions());            
+            loggerFactory.AddSerilog();          
+            
 
-            app.UseHttpsRedirection();
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());           
+            //Enable CORS with CORS Middleware for convenience   
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            //Using authentication
+            app.UseAuthentication();       
             
             app.UseMvc();
 
