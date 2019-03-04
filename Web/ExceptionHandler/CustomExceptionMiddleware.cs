@@ -44,7 +44,7 @@ namespace Web.ExceptionHandler
             var response = context.Response;
             var customException = exception as BaseCustomException;
             var statusCode = (int) HttpStatusCode.InternalServerError;// I assume all is 500
-            var message = $"linkit-error:{statusCode}";
+            var message = $"http-error:{statusCode}";
             var description = $"Unexpected error :{exception.Message}";
 
             if (null != customException)

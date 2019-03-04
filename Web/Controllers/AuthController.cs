@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Models;
 using Web.Auth;
 using Web.Dto;
 
 namespace Web.Controllers
 {
-    //string is case insensitive
+    [ApiVersion("1.0")]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase

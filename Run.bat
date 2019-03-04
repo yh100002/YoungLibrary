@@ -1,0 +1,1 @@
+start ".\Web\" dotnet run

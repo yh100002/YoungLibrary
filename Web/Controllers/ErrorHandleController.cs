@@ -37,7 +37,7 @@ namespace Web.Controllers
             HttpStatusCode parsedCode = (HttpStatusCode)code;
             ApiError error = new ApiError(code, parsedCode.ToString());
             //This log information will be sent to Elasticsearch by SeriLog which was overridden during startUp
-            this.logger.LogError($"linkit-error:{code}");
+            this.logger.LogError($"http-error:{code}");
             return new ObjectResult(error);
         }
     }
