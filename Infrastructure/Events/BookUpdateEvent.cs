@@ -1,17 +1,23 @@
- 
+
+
+using System;
 
 namespace Events
 {
     public class BookUpdateEvent : IntegrationEvent
     {
-        public int BookId { get; set; }
-        public string Name { get; set; }      
-        public string Description { get; set; }         
-        public BookUpdateEvent(int BookId, string Name, string Description)
+         public int id { get; set; }
+        public string name { get; set; }      
+        public string desc { get; set; }       
+        public decimal price { get; set; }
+        public DateTime updated_at { get; set; }      
+        public BookUpdateEvent(int id, string name, string desc, decimal price, DateTime updated_at)
         {
-            this.BookId = BookId;
-            this.Name = Name;
-            this.Description = Description;           
+            this.id = id;
+            this.name = name;
+            this.desc = desc;
+            this.price = price;
+            this.updated_at = updated_at; 
         }
     }
 }

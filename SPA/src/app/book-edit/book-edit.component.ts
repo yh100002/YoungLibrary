@@ -11,10 +11,10 @@ import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Valida
 export class BookEditComponent implements OnInit {
 
   bookForm: FormGroup;
-  id:string='';
-  book_name:string='';
-  book_desc:string='';
-  book_price:number=null;
+  id:number=0;
+  name:string='';
+  desc:string='';
+  price:number=null;
   isLoadingResults = false;
 
   constructor(private router: Router, private route: ActivatedRoute, private api: ApiService, private formBuilder: FormBuilder) { }
@@ -22,9 +22,9 @@ export class BookEditComponent implements OnInit {
   ngOnInit() {
     this.getBook(this.route.snapshot.params['id']);
     this.bookForm = this.formBuilder.group({
-      'book_name' : [null, Validators.required],
-      'book_desc' : [null, Validators.required],
-      'book_price' : [null, Validators.required]
+      'name' : [null, Validators.required],
+      'desc' : [null, Validators.required],
+      'price' : [null, Validators.required]
     });
   }
 
@@ -32,9 +32,9 @@ export class BookEditComponent implements OnInit {
     this.api.getBook(id).subscribe(data => {
       this.id = data.id;
       this.bookForm.setValue({
-        book_name: data.name,
-        book_desc: data.desc,
-        book_price: data.price
+        name: data.name,
+        desc: data.desc,
+        price: data.price
       });
     });
   }

@@ -54,7 +54,7 @@ namespace Web.ExceptionHandler
                 statusCode = customException.Code;
             }            
 
-            this.logger.LogError($"Linkit Unhandled Exception:{message}");            
+            this.logger.LogError($"Unhandled Exception:{message}");            
 
             var error = context.Features.Get<IExceptionHandlerFeature>();
             if(error != null) response.AddApplicationError(error.Error.Message);      

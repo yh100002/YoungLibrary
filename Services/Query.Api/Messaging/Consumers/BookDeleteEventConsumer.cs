@@ -18,10 +18,10 @@ namespace Query.Api.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<BookDeleteEvent> context)
         {
-            var repo = this.uow.GetRepository<BookData>();          
+            var repo = this.uow.GetRepository<Book>();          
 
-            Console.WriteLine("Consume=======>" + context.Message.BookId);
-            repo.Delete(context.Message.BookId);
+            Console.WriteLine("Consume=======>" + context.Message.id);
+            repo.Delete(context.Message.id);
 
             this.uow.SaveChanges();
         }           

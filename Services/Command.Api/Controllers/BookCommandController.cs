@@ -23,10 +23,10 @@ namespace Command.Api.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] BookData book)
+        public async Task<IActionResult> Create([FromBody] Book book)
         {
-            var repo = this.uow.GetRepositoryAsync<BookData>();               
-            var existed = repo.SingleAsync(s => s.BookId == book.BookId);
+            var repo = this.uow.GetRepositoryAsync<Book>();               
+            var existed = repo.SingleAsync(s => s.id == book.id);
             if(existed.Result != null)
             {
                 //Console.WriteLine("Updated:" + existed.Result.Name);
@@ -34,9 +34,11 @@ namespace Command.Api.Controllers
                 this.uow.SaveChanges();
                  await this.messageBus.Publish<BookUpdateEvent>(new 
                     { 
-                        book.BookId, 
-                        book.Name, 
-                        book.Description 
+                        book.id, 
+                        book.name, 
+                        book.desc, 
+                        book.price,
+                        book.updated_at
                     }
                     );
                 return Ok();               
@@ -46,9 +48,11 @@ namespace Command.Api.Controllers
             this.uow.SaveChanges();   
 
             await this.messageBus.Publish<BookCreateEvent>(new 
-                {   book.BookId, 
-                    book.Name, 
-                    book.Description  }
+                {   book.id, 
+                    book.name, 
+                    book.desc, 
+                    book.price,
+                    book.updated_at  }
                 );
 
             return Ok();
@@ -57,7 +61,7 @@ namespace Command.Api.Controllers
         [HttpPost("delete")]
         public async Task<IActionResult> Delete([FromBody] string bookId)
         {            
-            var repo = this.uow.GetRepository<BookData>();
+            var repo = this.uow.GetRepository<Book>();
             repo.Delete(bookId);   
             this.uow.SaveChanges();
             await this.messageBus.Publish<BookDeleteEvent>(new { bookId } );

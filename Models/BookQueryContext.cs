@@ -8,6 +8,6 @@ namespace Models
         {
         }
 
-        public DbSet<BookData> BookData { get; set; }                
+        public DbSet<Book> Book { get; set; }                
     }
 }

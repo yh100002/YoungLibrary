@@ -2,30 +2,38 @@ import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
-import { Book } from './book';
+import { Book } from './_models/book';
+import { PaginatedResult } from './_models/pagination';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
-const apiUrl = "http://localhost:3000/api/v1/books";
+const apiUrl = "https://localhost:5001/api/book";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
-
+export class ApiService {    
   constructor(private http: HttpClient) { }
 
-  getBooks (): Observable<Book[]> {
-    return this.http.get<Book[]>(apiUrl)
+  getBooks (page = 0): Observable<PaginatedResult<Book[]>> {
+    let paginatedResult: PaginatedResult<Book[]> = new PaginatedResult<Book[]>();
+    const url = `${apiUrl}/getBooks?page=${page}&size=100`;
+    return this.http.get<PaginatedResult<Book[]>>(url)
       .pipe(
-        tap(books => console.log('Fetch books')),
-        catchError(this.handleError('getBooks', []))
+        
+        map(response => {
+          paginatedResult = response;  
+          console.log(response);
+          return paginatedResult;
+        })
+        //tap(books => console.log('Fetch books')),
+        //catchError(this.handleError('getBooks', []))
       );
   }
 
   getBook(id: number): Observable<Book> {
-    const url = `${apiUrl}/${id}`;
+    const url = `${apiUrl}/getBook/${id}`;
     return this.http.get<Book>(url).pipe(
       tap(_ => console.log(`fetched book id=${id}`)),
       catchError(this.handleError<Book>(`getBook id=${id}`))
@@ -33,7 +41,8 @@ export class ApiService {
   }
 
   addBook (book): Observable<Book> {
-    return this.http.post<Book>(apiUrl, book, httpOptions).pipe(
+    const url = `${apiUrl}/addBook/`;
+    return this.http.post<Book>(url, book, httpOptions).pipe(
       // tslint:disable-next-line:no-shadowed-variable
       tap((book: Book) => console.log(`added book w/ id=${book.id}`)),
       catchError(this.handleError<Book>('addBook'))

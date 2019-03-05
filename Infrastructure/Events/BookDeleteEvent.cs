@@ -4,11 +4,11 @@ namespace Events
 {
     public class BookDeleteEvent : IntegrationEvent
     {
-        public int BookId { get; set; }
+        public int id { get; set; }
 
-        public BookDeleteEvent(int BookId)
+        public BookDeleteEvent(int id)
         {
-            this.BookId = BookId;         
+            this.id = id;         
         }
     }
 }

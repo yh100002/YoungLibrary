@@ -39,10 +39,17 @@ namespace Web.Controllers
         }
         
         
-        [HttpGet("GetBooks")]
-        public async Task<IActionResult> GetBooks()
+        [HttpGet("getBooks")]
+        public async Task<IActionResult> GetBooks(int page, int size)
         {
-            var response = await this.apiClient.GetStringAsync(this.librarySettings.Value.BookQueryApiUrl + "/api/bookquery/booklist");
+            var response = await this.apiClient.GetStringAsync(this.librarySettings.Value.BookQueryApiUrl + $"/api/bookquery/booklist?page={page}&size={size}");
+            return Ok(response);
+        }
+
+        [HttpGet("getBook/{id}")]
+        public async Task<IActionResult> GetBook(int id)
+        {
+            var response = await this.apiClient.GetStringAsync(this.librarySettings.Value.BookQueryApiUrl + $"/api/bookquery/getbook/{id}");
             return Ok(response);
         }
         
@@ -53,14 +60,14 @@ namespace Web.Controllers
         }
 
         [HttpPut("update")]
-        public async Task Put([FromBody] BookData book)
+        public async Task Put([FromBody] Book book)
         {            
             //Create or Update
             await this.apiClient.PostAsync(this.librarySettings.Value.BookCommandApiUrl + "/api/bookcommand/create", book);
         }
 
-        [HttpPost("Create")]
-        public async Task Create([FromBody] BookData book)
+        [HttpPost("addBook")]
+        public async Task AddBook([FromBody] Book book)
         {            
             //Create or Update
             await this.apiClient.PostAsync(this.librarySettings.Value.BookCommandApiUrl + "/api/bookcommand/create", book);

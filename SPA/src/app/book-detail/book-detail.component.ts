@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../api.service';
-import { Book } from '../book';
+import { Book } from '../_models/book';
 
 @Component({
   selector: 'app-book-detail',
@@ -10,7 +10,7 @@ import { Book } from '../book';
 })
 export class BookDetailComponent implements OnInit {
 
-  book: Book = { id: '', name: '', desc: '', price: null, updated_at: null };
+  book: Book = { id: 0, name: '', desc: '', price: null, updated_at: null };
   isLoadingResults = true;
 
   constructor(private route: ActivatedRoute, private api: ApiService, private router: Router) { }

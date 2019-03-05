@@ -21,13 +21,20 @@ namespace Query.Api.Controllers
             this.uow = uow;
         }
 
-         [HttpGet("booklist")]
-        public async Task<IActionResult> BookList()
+        [HttpGet("booklist")]
+        public async Task<IActionResult> BookList(int page, int size)
         {
-            var repo =this.uow.GetRepositoryAsync<BookData>();
-            var result = await repo.GetListAsync();    
+            var repo =this.uow.GetRepositoryAsync<Book>();
+            var result = await repo.GetListAsync(index:page, size:size);    
             return Ok(result);
         }
         
+        [HttpGet("getBook/{id}")]
+        public async Task<IActionResult> GetBook(int id)
+        {
+            var repo =this.uow.GetRepositoryAsync<Book>();
+            var result = await repo.SingleAsync(s => s.id == id);
+            return Ok(result);
+        }
     }
 }

@@ -11,18 +11,18 @@ import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Valida
 export class BookAddComponent implements OnInit {
 
   bookForm: FormGroup;
-  book_name:string='';
-  book_desc:string='';
-  book_price:number=null;
+  name:string='';
+  desc:string='';
+  price:number=null;
   isLoadingResults = false;
 
   constructor(private router: Router, private api: ApiService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.bookForm = this.formBuilder.group({
-      'book_name' : [null, Validators.required],
-      'book_desc' : [null, Validators.required],
-      'book_price' : [null, Validators.required]
+      'name' : [null, Validators.required],
+      'desc' : [null, Validators.required],
+      'price' : [null, Validators.required]
     });
   }
 
@@ -30,7 +30,7 @@ export class BookAddComponent implements OnInit {
     this.isLoadingResults = true;
     this.api.addBook(form)
       .subscribe(res => {
-          let id = res['_id'];
+          let id = res['id'];
           this.isLoadingResults = false;
           this.router.navigate(['/book-details', id]);
         }, (err) => {

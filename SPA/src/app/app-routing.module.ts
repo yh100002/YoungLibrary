@@ -22,7 +22,7 @@ const routes: Routes = [
     data: { title: 'Add Book' }
   },
   {
-    path: 'product-book/:id',
+    path: 'book-edit/:id',
     component: BookEditComponent,
     data: { title: 'Edit Book' }
   },

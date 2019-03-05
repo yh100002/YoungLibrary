@@ -38,7 +38,7 @@ namespace Query.Api
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            string dbConnString = Configuration.GetConnectionString("ProductDB");
+            string dbConnString = Configuration.GetConnectionString("LibraryQuery");
 
             services.AddDbContext<BookQueryContext>(options =>
                 options.UseSqlServer( dbConnString, builder1 => builder1.MigrationsAssembly(typeof(Startup).Assembly.FullName)

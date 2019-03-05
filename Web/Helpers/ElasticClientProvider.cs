@@ -16,7 +16,7 @@ namespace Web.Helpers
 
             if (!string.IsNullOrEmpty(settings.Value.BookIndex))
             {   
-                connectionSettings.DefaultMappingFor<BookData>(m => m.IndexName(settings.Value.BookIndex));
+                connectionSettings.DefaultMappingFor<Book>(m => m.IndexName(settings.Value.BookIndex));
             }
            
             this.Client = new ElasticClient(connectionSettings);       

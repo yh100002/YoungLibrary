@@ -35,7 +35,7 @@ namespace Command.Api
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            string dbConnString = Configuration.GetConnectionString("BookDB");
+            string dbConnString = Configuration.GetConnectionString("LibraryCommand");
 
             services.AddDbContext<BookCommandContext>(options =>
                 options.UseSqlServer( dbConnString, builder1 => builder1.MigrationsAssembly(typeof(Startup).Assembly.FullName)

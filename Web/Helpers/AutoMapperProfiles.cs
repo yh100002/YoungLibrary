@@ -8,7 +8,7 @@ namespace Web.Helpers
     {
         public AutoMapperProfiles()
         {
-           CreateMap<BookData, BookResponseDto>();
+           CreateMap<Book, BookResponseDto>();
         }        
     }
 }

@@ -9,24 +9,24 @@
   <mat-card class="example-card">
     <form [formGroup]="bookForm" (ngSubmit)="onFormSubmit(bookForm.value)">
       <mat-form-field class="example-full-width">
-        <input matInput placeholder="Book Name" formControlName="book_name"
+        <input matInput placeholder="Book Name" formControlName="name"
                [errorStateMatcher]="matcher">
         <mat-error>
-          <span *ngIf="!bookForm.get('book_name').valid && bookForm.get('book_name').touched">Please enter Book Name</span>
+          <span *ngIf="!bookForm.get('name').valid && bookForm.get('name').touched">Please enter Book Name</span>
         </mat-error>
       </mat-form-field>
       <mat-form-field class="example-full-width">
-        <input matInput placeholder="Book Desc" formControlName="book_desc"
+        <input matInput placeholder="Book Desc" formControlName="desc"
                [errorStateMatcher]="matcher">
         <mat-error>
-          <span *ngIf="!bookForm.get('book_desc').valid && bookForm.get('book_desc').touched">Please enter Book Description</span>
+          <span *ngIf="!bookForm.get('desc').valid && bookForm.get('desc').touched">Please enter Book Description</span>
         </mat-error>
       </mat-form-field>
       <mat-form-field class="example-full-width">
-        <input matInput placeholder="Book Price" formControlName="book_price"
+        <input matInput placeholder="Book Price" formControlName="price"
                [errorStateMatcher]="matcher">
         <mat-error>
-          <span *ngIf="!bookForm.get('book_price').valid && bookForm.get('book_price').touched">Please enter Book Price</span>
+          <span *ngIf="!bookForm.get('price').valid && bookForm.get('price').touched">Please enter Book Price</span>
         </mat-error>
       </mat-form-field>
       <div class="button-row">

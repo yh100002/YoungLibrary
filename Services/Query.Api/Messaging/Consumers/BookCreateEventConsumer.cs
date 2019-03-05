@@ -17,16 +17,17 @@ namespace Query.Api.Messaging.Consumers
         
         public async Task Consume(ConsumeContext<BookCreateEvent> context)
         {
-            var repo = this.uow.GetRepositoryAsync<BookData>();
+            var repo = this.uow.GetRepositoryAsync<Book>();
 
-            var product = new BookData()
-            {
-                BookId = context.Message.BookId,
-                Name = context.Message.Name,
-                Description = context.Message.Description               
+            var book = new Book()
+            {                
+                name = context.Message.name,
+                desc = context.Message.desc,
+                price = context.Message.price,
+                updated_at = context.Message.updated_at   
             };
 
-            await repo.AddAsync(product);    
+            await repo.AddAsync(book);    
 
             this.uow.SaveChanges();
 
