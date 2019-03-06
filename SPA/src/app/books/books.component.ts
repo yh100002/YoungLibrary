@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../api.service';
+import { ApiService } from '../_services/api.service';
 import { Book } from '../_models/book';
 import { Pagination, PaginatedResult } from '../_models/pagination';
 

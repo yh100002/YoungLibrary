@@ -4,8 +4,13 @@ import { BooksComponent } from './books/books.component';
 import { BookDetailComponent } from './book-detail/book-detail.component';
 import { BookAddComponent } from './book-add/book-add.component';
 import { BookEditComponent } from './book-edit/book-edit.component';
+import { AuthGuard } from './_guards';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   {
     path: 'books',
     component: BooksComponent,
@@ -26,10 +31,17 @@ const routes: Routes = [
     component: BookEditComponent,
     data: { title: 'Edit Book' }
   },
-  { path: '',
-    redirectTo: '/books',
-    pathMatch: 'full'
-  }
+  { 
+    path: 'login', 
+    component: LoginComponent 
+  },
+  { 
+    path: 'register', 
+    component: RegisterComponent 
+  },
+  // otherwise redirect to home
+  { path: '**', redirectTo: '' }
+  //{ path: '', redirectTo: '/books',  pathMatch: 'full' }
 ];
 
 @NgModule({
