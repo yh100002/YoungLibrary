@@ -15,38 +15,42 @@ const routes: Routes = [
   {
     path: 'books',
     component: BooksComponent,
-    data: { title: 'List of Books' }
+    data: { title: 'List of Books' },
+    canActivate: [AuthGuard]    
   },
   {
     path: 'book-detail/:id',
     component: BookDetailComponent,
-    data: { title: 'Book Details' }
+    data: { title: 'Book Details' },
+    canActivate: [AuthGuard]     
   },
   {
     path: 'book-add',
     component: BookAddComponent,
-    data: { title: 'Add Book' }
+    data: { title: 'Add Book' },
+    canActivate: [AuthGuard]    
   },
   {
     path: 'book-edit/:id',
     component: BookEditComponent,
-    data: { title: 'Edit Book' }
+    data: { title: 'Edit Book' },
+    canActivate: [AuthGuard]  
   },
   { 
     path: 'login', 
-    component: LoginComponent 
+    component: LoginComponent    
   },
   { 
     path: 'register', 
-    component: RegisterComponent 
+    component: RegisterComponent,
+    canActivate: [AuthGuard] 
   },
   { 
     path: 'statistic', 
-    component: StatisticComponent 
+    component: StatisticComponent    
   },
   // otherwise redirect to home
-  { path: '**', redirectTo: '' }
-  //{ path: '', redirectTo: '/books',  pathMatch: 'full' }
+  { path: '**', redirectTo: '' }  
 ];
 
 @NgModule({

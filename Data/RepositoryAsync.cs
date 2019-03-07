@@ -53,8 +53,8 @@ namespace Data
             if (predicate != null) query = query.Where(predicate);
 
             if (orderBy != null)
-                return orderBy(query).ToPaginateAsync(index, size, 0, cancellationToken);
-            return query.ToPaginateAsync(index, size, 0, cancellationToken);
+                return orderBy(query).ToPaginateAsync(index, size, 1, cancellationToken);
+            return query.ToPaginateAsync(index, size, 1, cancellationToken);
         }
 
         public Task AddAsync(T entity, CancellationToken cancellationToken = default(CancellationToken))

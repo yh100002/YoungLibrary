@@ -41,7 +41,7 @@ namespace Web.Controllers
         
         [HttpGet("getBooks")]
         public async Task<IActionResult> GetBooks(int page, int size)
-        {
+        {            
             var response = await this.apiClient.GetStringAsync(this.librarySettings.Value.BookQueryApiUrl + $"/api/bookquery/booklist?page={page}&size={size}");
             return Ok(response);
         }

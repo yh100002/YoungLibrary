@@ -13,13 +13,13 @@ import { MatInputModule,
   MatButtonModule,
   MatCardModule,
   MatFormFieldModule } from '@angular/material';
-
-
+import { PaginationModule } from 'ngx-bootstrap';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { AlertComponent } from './_components';
 import { JwtInterceptor, ErrorInterceptor } from './_intercepter';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
-import { BooksComponent } from './books/books.component';
+import { BooksComponent, HighlightSearch } from './books/books.component';
 import { BookDetailComponent } from './book-detail/book-detail.component';
 import { BookAddComponent } from './book-add/book-add.component';
 import { BookEditComponent } from './book-edit/book-edit.component';
@@ -39,7 +39,8 @@ import { StatisticComponent } from './statistic/statistic.component';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    StatisticComponent
+    StatisticComponent,
+    HighlightSearch
   ],
   imports: [
     BrowserModule,
@@ -56,7 +57,9 @@ import { StatisticComponent } from './statistic/statistic.component';
     MatIconModule,
     MatButtonModule,
     MatCardModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    PaginationModule.forRoot(),
+    NgxJsonViewerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AddHeaderInterceptor, multi: true },

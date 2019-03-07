@@ -18,7 +18,7 @@ export class ApiService {
 
   getBooks (page = 0): Observable<PaginatedResult<Book[]>> {
     let paginatedResult: PaginatedResult<Book[]> = new PaginatedResult<Book[]>();
-    const url = `${apiUrl}/getBooks?page=${page}&size=100`;
+    const url = `${apiUrl}/getBooks?page=${page}&size=2`;
     return this.http.get<PaginatedResult<Book[]>>(url)
       .pipe(
         
@@ -26,9 +26,7 @@ export class ApiService {
           paginatedResult = response;  
           console.log(response);
           return paginatedResult;
-        })
-        //tap(books => console.log('Fetch books')),
-        //catchError(this.handleError('getBooks', []))
+        })     
       );
   }
 
