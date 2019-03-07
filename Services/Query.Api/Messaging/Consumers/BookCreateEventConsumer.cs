@@ -21,6 +21,7 @@ namespace Query.Api.Messaging.Consumers
 
             var book = new Book()
             {                
+                id = context.Message.id,
                 name = context.Message.name,
                 desc = context.Message.desc,
                 price = context.Message.price,

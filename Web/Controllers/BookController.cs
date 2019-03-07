@@ -47,30 +47,35 @@ namespace Web.Controllers
         }
 
         [HttpGet("getBook/{id}")]
-        public async Task<IActionResult> GetBook(int id)
+        public async Task<IActionResult> GetBook(string id)
         {
-            var response = await this.apiClient.GetStringAsync(this.librarySettings.Value.BookQueryApiUrl + $"/api/bookquery/getbook/{id}");
+            var response = await this.apiClient.GetStringAsync(this.librarySettings.Value.BookQueryApiUrl + $"/api/bookquery/getbook/{id.ToUpper()}");
             return Ok(response);
         }
         
         [HttpDelete("{id}")]
-        public async Task Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {           
-            await this.apiClient.PostAsync(this.librarySettings.Value.BookCommandApiUrl + "/api/bookcommand/delete", id);
+            var response = this.apiClient.PostAsync(this.librarySettings.Value.BookCommandApiUrl + "/api/bookcommand/delete", id.ToUpper());
+            return Ok(response);
         }
 
         [HttpPut("update")]
-        public async Task Put([FromBody] Book book)
+        public async Task<IActionResult> Put([FromBody] Book book)
         {            
-            //Create or Update
-            await this.apiClient.PostAsync(this.librarySettings.Value.BookCommandApiUrl + "/api/bookcommand/create", book);
+            //Update          
+            Console.WriteLine("update BOOK:" + book.id);  
+            var response = await this.apiClient.PostAsync(this.librarySettings.Value.BookCommandApiUrl + "/api/bookcommand/update", book);
+            return Ok(response);
         }
 
         [HttpPost("addBook")]
-        public async Task AddBook([FromBody] Book book)
+        public async Task<IActionResult> AddBook([FromBody] Book book)
         {            
-            //Create or Update
-            await this.apiClient.PostAsync(this.librarySettings.Value.BookCommandApiUrl + "/api/bookcommand/create", book);
+            //Create
+            Console.WriteLine("Create Book:" +  book.id);
+            var response = await this.apiClient.PostAsync(this.librarySettings.Value.BookCommandApiUrl + "/api/bookcommand/create", book);
+            return Ok(response);
         }
     }
 }

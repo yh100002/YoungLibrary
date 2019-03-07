@@ -29,10 +29,9 @@ export class BookAddComponent implements OnInit {
   onFormSubmit(form:NgForm) {
     this.isLoadingResults = true;
     this.api.addBook(form)
-      .subscribe(res => {
-          let id = res['id'];
+      .subscribe(res => {          
           this.isLoadingResults = false;
-          this.router.navigate(['/book-details', id]);
+          //this.router.navigate(['/books']);
         }, (err) => {
           console.log(err);
           this.isLoadingResults = false;

@@ -6,7 +6,7 @@ namespace Models
     public class Book
     {
         [Key]
-        public int id { get; set; }
+        public Guid id { get; set; }
         public string name { get; set; }      
         public string desc { get; set; }       
         public decimal price { get; set; }

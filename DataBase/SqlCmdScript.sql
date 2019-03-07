@@ -31,7 +31,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Book](
-	[id] [int] IDENTITY(1,1) NOT NULL,
+	[id] [uniqueidentifier] NOT NULL,
 	[name] [nvarchar](100) NOT NULL,
 	[desc] [nvarchar](max) NOT NULL,
 	[price] [money] NULL,
@@ -53,7 +53,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Book](
-	[id] [int] IDENTITY(1,1) NOT NULL,
+	[id] [uniqueidentifier] NOT NULL,
 	[name] [nvarchar](100) NOT NULL,
 	[desc] [nvarchar](max) NOT NULL,
 	[price] [money] NULL,

@@ -10,7 +10,7 @@ import { Book } from '../_models/book';
 })
 export class BookDetailComponent implements OnInit {
 
-  book: Book = { id: 0, name: '', desc: '', price: null, updated_at: null };
+  book: Book = { id: '', name: '', desc: '', price: null, updated_at: null };
   isLoadingResults = true;
 
   constructor(private route: ActivatedRoute, private api: ApiService, private router: Router) { }

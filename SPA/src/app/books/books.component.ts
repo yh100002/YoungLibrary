@@ -10,7 +10,7 @@ import { Pagination, PaginatedResult } from '../_models/pagination';
 })
 export class BooksComponent implements OnInit {
   pagination: Pagination;
-  displayedColumns: string[] = ['name', 'price'];
+  displayedColumns: string[] = ['name', 'desc', 'price', 'updated_at'];
   data: Book[] = [];
   isLoadingResults = true;
 

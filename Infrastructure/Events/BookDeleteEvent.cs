@@ -1,12 +1,14 @@
- 
+
+
+using System;
 
 namespace Events
 {
     public class BookDeleteEvent : IntegrationEvent
     {
-        public int id { get; set; }
+        public Guid id { get; set; }
 
-        public BookDeleteEvent(int id)
+        public BookDeleteEvent(Guid id)
         {
             this.id = id;         
         }

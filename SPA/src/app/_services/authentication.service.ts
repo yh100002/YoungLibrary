@@ -8,30 +8,31 @@ import { User } from '../_models';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
     baseUrl = environment.apiUrl;
-    private currentUserSubject: BehaviorSubject<User>;
-    public currentUser: Observable<User>;
+    private currentUserSubject: BehaviorSubject<string>;
+    public currentUser: Observable<string>;
 
     constructor(private http: HttpClient) {
-        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+        this.currentUserSubject = new BehaviorSubject<string>(localStorage.getItem('currentUser'));
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
-    public get currentUserValue(): User {
+    public get currentUserValue(): string {
         return this.currentUserSubject.value;
     }
 
     //https://localhost:5001/api/auth/login
     login(username: string, password: string) {
         return this.http.post<any>(`${this.baseUrl}auth/login`, { username, password })
-            .pipe(map(user => {
-                // login successful if there's a jwt token in the response
-                if (user && user.token) {
+            .pipe(map(token => {
+                // login successful if there's a jwt token in the response                
+                if (token) {
+                    console.log(token.token);
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                    this.currentUserSubject.next(user);
+                    localStorage.setItem('currentUser', token.token);
+                    this.currentUserSubject.next(token.token);
                 }
 
-                return user;
+                return token.token;
             }));
     }
 

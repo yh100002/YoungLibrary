@@ -30,7 +30,7 @@ namespace Query.Api.Controllers
         }
         
         [HttpGet("getBook/{id}")]
-        public async Task<IActionResult> GetBook(int id)
+        public async Task<IActionResult> GetBook(Guid id)
         {
             var repo =this.uow.GetRepositoryAsync<Book>();
             var result = await repo.SingleAsync(s => s.id == id);

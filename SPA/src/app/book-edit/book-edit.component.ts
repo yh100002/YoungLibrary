@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../_services/api.service';
 import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Book } from '../_models';
 
 @Component({
   selector: 'app-book-edit',
@@ -11,7 +12,7 @@ import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Valida
 export class BookEditComponent implements OnInit {
 
   bookForm: FormGroup;
-  id:number=0;
+  id:string='';
   name:string='';
   desc:string='';
   price:number=null;
@@ -28,10 +29,10 @@ export class BookEditComponent implements OnInit {
     });
   }
 
-  getBook(id) {
+  getBook(id:string) {
     this.api.getBook(id).subscribe(data => {
       this.id = data.id;
-      this.bookForm.setValue({
+      this.bookForm.setValue({        
         name: data.name,
         desc: data.desc,
         price: data.price
@@ -40,12 +41,11 @@ export class BookEditComponent implements OnInit {
   }
 
   onFormSubmit(form:NgForm) {
-    this.isLoadingResults = true;
+    this.isLoadingResults = true;        
     this.api.updateBook(this.id, form)
-      .subscribe(res => {
-          let id = res['id'];
+      .subscribe(res => {          
           this.isLoadingResults = false;
-          this.router.navigate(['/book-details', id]);
+          this.router.navigate(['/book-detail', this.id]);
         }, (err) => {
           console.log(err);
           this.isLoadingResults = false;
@@ -54,7 +54,7 @@ export class BookEditComponent implements OnInit {
   }
 
   bookDetails() {
-    this.router.navigate(['/book-details', this.id]);
+    this.router.navigate(['/book-detail', this.id]);
   }
 
 }

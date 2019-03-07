@@ -16,14 +16,26 @@
         <td mat-cell *matCellDef="let row">{{row.name}}</td>
       </ng-container>
 
+       <!-- Book Description Column -->
+      <ng-container matColumnDef="desc">
+        <th mat-header-cell *matHeaderCellDef>Book Description</th>
+        <td mat-cell *matCellDef="let row">{{row.desc}}</td>
+      </ng-container>
+
       <!-- Book Price Column -->
       <ng-container matColumnDef="price">
         <th mat-header-cell *matHeaderCellDef>Book Price</th>
         <td mat-cell *matCellDef="let row">$ {{row.price}}</td>
       </ng-container>
 
+       <!-- Book Price Column -->
+      <ng-container matColumnDef="updated_at">
+        <th mat-header-cell *matHeaderCellDef>Updated At</th>
+        <td mat-cell *matCellDef="let row">$ {{row.updated_at}}</td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/book-details/', row.id]"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/book-detail/', row.id]"></tr>
     </table>
   </div>
 </div>

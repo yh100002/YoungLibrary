@@ -32,7 +32,7 @@ export class ApiService {
       );
   }
 
-  getBook(id: number): Observable<Book> {
+  getBook(id: string): Observable<Book> {
     const url = `${apiUrl}/getBook/${id}`;
     return this.http.get<Book>(url).pipe(
       tap(_ => console.log(`fetched book id=${id}`)),
@@ -49,15 +49,16 @@ export class ApiService {
     );
   }
 
-  updateBook (id, book): Observable<any> {
-    const url = `${apiUrl}/${id}`;
-    return this.http.put(url, book, httpOptions).pipe(
-      tap(_ => console.log(`updated book id=${id}`)),
-      catchError(this.handleError<any>('updateBook'))
+  updateBook (id, book): Observable<any> {    
+    const url = `${apiUrl}/update/`;
+    book.id = id;
+    return this.http.put<Book>(url, book, httpOptions).pipe(
+      tap(_ => console.log(`updated book id=${book.desc}`)),
+      catchError(this.handleError<Book>('updateBook'))
     );
   }
 
-  deleteBook (id): Observable<Book> {
+  deleteBook (id: string): Observable<Book> {
     const url = `${apiUrl}/${id}`;
 
     return this.http.delete<Book>(url, httpOptions).pipe(

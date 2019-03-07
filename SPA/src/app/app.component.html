@@ -1,8 +1,11 @@
 <!-- nav -->
 <nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
     <div class="navbar-nav">
-        <a class="nav-item nav-link" routerLink="/">Home</a>
-        <a class="nav-item nav-link" (click)="logout()">Logout</a>
+        <a class="nav-item nav-link" routerLink="/">[Home]</a>
+        <a class="nav-item nav-link" (click)="logout()">[Logout]</a>
+        <a class="nav-item nav-link" [routerLink]="['/statistic']">[Performance Aggregation]</a>
+        <a class="nav-item nav-link" [routerLink]="['/statistic']">[Server Search]</a>
+        <a class="nav-item nav-link" [routerLink]="['/statistic']">[Local Search]</a>
     </div>
 </nav>
 

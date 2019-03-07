@@ -25,46 +25,51 @@ namespace Command.Api.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] Book book)
         {
-            var repo = this.uow.GetRepositoryAsync<Book>();               
-            var existed = repo.SingleAsync(s => s.id == book.id);
-            if(existed.Result != null)
-            {
-                //Console.WriteLine("Updated:" + existed.Result.Name);
-                repo.UpdateAsync(existed.Result);
-                this.uow.SaveChanges();
-                 await this.messageBus.Publish<BookUpdateEvent>(new 
-                    { 
-                        book.id, 
-                        book.name, 
-                        book.desc, 
-                        book.price,
-                        book.updated_at
-                    }
-                    );
-                return Ok();               
-            }
-            //Console.WriteLine("Created:" + product.Name);
+            book.id = Guid.NewGuid();
+            var repo = this.uow.GetRepositoryAsync<Book>();    
+            Console.WriteLine("Created:" + book.name);
+            book.updated_at = DateTime.Now;
             await repo.AddAsync(book);    
             this.uow.SaveChanges();   
 
             await this.messageBus.Publish<BookCreateEvent>(new 
-                {   book.id, 
-                    book.name, 
-                    book.desc, 
-                    book.price,
-                    book.updated_at  }
-                );
+            {   book.id, 
+                book.name, 
+                book.desc, 
+                book.price,
+                book.updated_at  }
+            );
 
-            return Ok();
+            return Ok(book);
         }
 
+        [HttpPost("update")]
+        public async Task<IActionResult> Update([FromBody] Book book)
+        {
+            var repo = this.uow.GetRepositoryAsync<Book>();    
+            book.updated_at = DateTime.Now;
+            repo.UpdateAsync(book);           
+            this.uow.SaveChanges();
+            await this.messageBus.Publish<BookUpdateEvent>(new 
+            { 
+                book.id, 
+                book.name, 
+                book.desc, 
+                book.price,
+                book.updated_at
+            }
+            );
+            return Ok(book); 
+        }  
+
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete([FromBody] string bookId)
+        public async Task<IActionResult> Delete([FromBody] Guid id)
         {            
             var repo = this.uow.GetRepository<Book>();
-            repo.Delete(bookId);   
+            Console.WriteLine(id);
+            repo.Delete(id);   
             this.uow.SaveChanges();
-            await this.messageBus.Publish<BookDeleteEvent>(new { bookId } );
+            await this.messageBus.Publish<BookDeleteEvent>(new { id } );
             return Ok("delete");
         }
     }

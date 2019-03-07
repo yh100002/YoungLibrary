@@ -8,6 +8,7 @@ import { AuthGuard } from './_guards';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
+import { StatisticComponent } from './statistic/statistic.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -17,7 +18,7 @@ const routes: Routes = [
     data: { title: 'List of Books' }
   },
   {
-    path: 'book-details/:id',
+    path: 'book-detail/:id',
     component: BookDetailComponent,
     data: { title: 'Book Details' }
   },
@@ -38,6 +39,10 @@ const routes: Routes = [
   { 
     path: 'register', 
     component: RegisterComponent 
+  },
+  { 
+    path: 'statistic', 
+    component: StatisticComponent 
   },
   // otherwise redirect to home
   { path: '**', redirectTo: '' }
