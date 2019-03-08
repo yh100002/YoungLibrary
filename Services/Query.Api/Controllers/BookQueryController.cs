@@ -24,6 +24,7 @@ namespace Query.Api.Controllers
         [HttpGet("booklist")]
         public async Task<IActionResult> BookList(int page, int size)
         {
+            Console.WriteLine($"page:{page}");
             var repo =this.uow.GetRepositoryAsync<Book>();
             var result = await repo.GetListAsync(index:page, size:size);    
             return Ok(result);
